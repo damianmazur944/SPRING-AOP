@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealers</title>
+</head>
+<body>
+<form ng-submit="dealers.addDealer()">
+    <div class="form-group">
+        <input required type="text" class="form-control" placeholder="Name" ng-model="users.newUser.name">
+        <input required type="text" class="form-control" placeholder="Surname" ng-model="users.newUser.surname">
+        <input required type="email" class="form-control" placeholder="Email" ng-model="users.newUser.email">
+        <input required type="text" class="form-control" placeholder="Login" ng-model="users.newUser.login">
+        <input required type="password" class="form-control" placeholder="Password"
+               ng-model="users.newUser.password">
+
+        <button type="submit" class="btn btn-success">Add User</button>
+    </div>
+</form>
+</body>
+</html>
