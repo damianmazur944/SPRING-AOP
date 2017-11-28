@@ -22,6 +22,7 @@ public class Car {
     private EngineType engineType;
     @NotNull
     private TransmissionType transmissionType;
+    private String photoLink;
     @ManyToOne
     private Dealer dealer;
 
@@ -80,5 +81,13 @@ public class Car {
 
     public void setDealer(Dealer dealer) {
         this.dealer = dealer;
+    }
+
+    public String getPhotoLink() {
+        return photoLink;
+    }
+
+    public void setPhotoLink(String photoLink) {
+        this.photoLink = photoLink;
     }
 }
