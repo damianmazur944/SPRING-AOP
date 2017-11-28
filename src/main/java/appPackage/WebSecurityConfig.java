@@ -37,16 +37,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/static/index.html", "/home.html", "/login.html","/cars/getDealerCars", "/dealers/getAllDealers", "/js/*", "/js/*/*", "/", "/css/*", "/img/*", "/fonts/*").permitAll()
-                .anyRequest().fullyAuthenticated()
                 .and()
-                .formLogin()
+                .formLogin().successForwardUrl("http://localhost:4200")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .and()
                 .logout()
                 .permitAll()
                 .and()
-                .csrf();
+                .csrf()
+                .disable();
+
     }
 
     @Autowired

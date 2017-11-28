@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cars")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CarController {
 
     private final CarRepository carRepository;
@@ -18,34 +19,36 @@ public class CarController {
 
     @Autowired
     CarController(CarRepository carRepository,
-                  DealerRepository dealerRepository){
+                  DealerRepository dealerRepository) {
         this.carRepository = carRepository;
         this.dealerRepository = dealerRepository;
     }
 
-    @RequestMapping(method = RequestMethod.GET,value = "/{id}")
-    Car getCar(@PathVariable Long id){
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    Car getCar(@PathVariable Long id) {
         return this.carRepository.findOne(id);
     }
+
     @TimeMessure
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    List<Car> getAllCars(){
+    List<Car> getAllCars() {
         return this.carRepository.findAll();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    void addCar(@RequestBody Car car){
+    void addCar(@RequestBody Car car) {
         this.carRepository.save(car);
     }
-    @RequestMapping(method = RequestMethod.DELETE,value = "/deleteCar/{id}")
-    void deleteCar(@PathVariable Long id){
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/deleteCar/{id}")
+    void deleteCar(@PathVariable Long id) {
         this.carRepository.delete(id);
     }
 
-    @RequestMapping(method = RequestMethod.GET,value="/getDealerCars/{dealerId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/getDealerCars/{dealerId}")
     @ResponseBody
-    List<Car> getCarsByDealerId(@PathVariable Long dealerId){
+    List<Car> getCarsByDealerId(@PathVariable Long dealerId) {
         return this.carRepository.findCarsByDealerId(dealerId);
     }
 

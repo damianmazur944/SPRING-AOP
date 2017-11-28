@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/dealers")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DealerController {
 
     private DealerRepository dealerRepository;
@@ -28,7 +29,7 @@ public class DealerController {
         this.dealerRepository = dealerRepository;
     }
     @TimeMessure
-    @RequestMapping(method = RequestMethod.GET, value="getAllDealers")
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     List<Dealer> getAllDealers(){
         return this.dealerRepository.findAll();
