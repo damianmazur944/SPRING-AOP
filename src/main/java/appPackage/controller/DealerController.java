@@ -22,24 +22,33 @@ public class DealerController {
     @Autowired
     public DealerController(DealerRepository dealerRepository,
                             RoleRepository roleRepository,
-                            CarRepository carRepository){
+                            CarRepository carRepository) {
         this.carRepository = carRepository;
         this.roleRepository = roleRepository;
         this.dealerRepository = dealerRepository;
     }
+
     @TimeMessure
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    List<Dealer> getAllDealers(){
+    List<Dealer> getAllDealers() {
         return this.dealerRepository.findAll();
     }
-    @RequestMapping(method = RequestMethod.GET,value = "/{id}")
+
+    @RequestMapping(value = "/login/{login}", method = RequestMethod.GET)
     @ResponseBody
-    Dealer getDealer(@PathVariable Long id){
+    Dealer getDealerByLogin(@PathVariable String login) {
+        return this.dealerRepository.findDealerByLogin(login);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @ResponseBody
+    Dealer getDealer(@PathVariable Long id) {
         return this.dealerRepository.findOne(id);
     }
 
-    void addDealer(@RequestBody Dealer dealer){
+    @RequestMapping(method = RequestMethod.POST)
+    void addDealer(@RequestBody Dealer dealer) {
         this.dealerRepository.save(dealer);
     }
 
