@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/dealers")
-@CrossOrigin(origins = "http://localhost:4200")
 public class DealerController {
 
     private DealerRepository dealerRepository;
@@ -39,6 +38,7 @@ public class DealerController {
     Dealer getDealer(@PathVariable Long id){
         return this.dealerRepository.findOne(id);
     }
+
     void addDealer(@RequestBody Dealer dealer){
         this.dealerRepository.save(dealer);
     }

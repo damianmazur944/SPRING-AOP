@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cars")
-@CrossOrigin(origins = "http://localhost:4200")
 public class CarController {
 
     private final CarRepository carRepository;

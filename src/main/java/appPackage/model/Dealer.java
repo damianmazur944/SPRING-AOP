@@ -87,4 +87,5 @@ public class Dealer {
     public void setEnable(boolean enable) {
         this.enable = enable;
     }
+
 }
