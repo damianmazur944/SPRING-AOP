@@ -13,9 +13,9 @@ import java.util.List;
 public interface CarRepository extends CrudRepository<Car, Long> {
     List<Car> findAll();
 
-    @Query("select c from Car c where c.dealer.id = :id")
+    @Query("select c from Car c where c.user.id = :id")
     List<Car> findCarsByDealerId(@Param("id") Long id);
 
-    @Query("select c from Car c where c.dealer is null")
+    @Query("select c from Car c where c.user is null")
     List<Car> findCarsWithoutDealer();
 }

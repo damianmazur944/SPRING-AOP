@@ -1,5 +1,7 @@
 package appPackage;
 
+import appPackage.controller.CarController;
+import appPackage.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -8,10 +10,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Method;
 
 @Configuration
 @EnableWebSecurity
@@ -24,42 +28,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+
     @Autowired
     public WebSecurityConfig(@Qualifier("dataSource") DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    @Autowired
+    public MyUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic()
-                .and()
+                .userDetailsService(userDetailsService)
                 .authorizeRequests()
-                .antMatchers("/static/index.html", "/home.html", "/login.html","/js/*", "/js/*/*", "/", "/css/*", "/img/*", "/fonts/*").permitAll()
-                .anyRequest().fullyAuthenticated()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin().successForwardUrl("http://localhost:4200")
+                .formLogin()
+                .loginPage("/login")
+                .failureForwardUrl("/login?error")
                 .usernameParameter("username")
                 .passwordParameter("password")
+                .permitAll()
                 .and()
                 .logout()
                 .permitAll()
                 .and()
                 .csrf()
                 .disable();
-
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("select login as username, password,enable FROM dealer where login = ?")
-                .authoritiesByUsernameQuery("select u.login as username, r.role as role_name from role r" +
-                        " join dealer u on u.role_id = r.id" +
-                        " where u.login = ?");
+                .userDetailsService(userDetailsService);
     }
 }

@@ -1,12 +1,12 @@
 package appPackage.controller;
 
 import appPackage.Aspects.TimeMessure;
-import appPackage.model.Car;
-import appPackage.model.Dealer;
+import appPackage.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import appPackage.repository.CarRepository;
-import appPackage.repository.DealerRepository;
+import appPackage.repository.UserRepository;
 import appPackage.repository.RoleRepository;
 
 import java.util.List;
@@ -15,41 +15,45 @@ import java.util.List;
 @RequestMapping("/dealers")
 public class DealerController {
 
-    private DealerRepository dealerRepository;
+    private UserRepository userRepository;
     private RoleRepository roleRepository;
     private CarRepository carRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DealerController(DealerRepository dealerRepository,
+    public DealerController(UserRepository userRepository,
                             RoleRepository roleRepository,
-                            CarRepository carRepository) {
+                            CarRepository carRepository,
+                            PasswordEncoder passwordEncoder) {
         this.carRepository = carRepository;
         this.roleRepository = roleRepository;
-        this.dealerRepository = dealerRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @TimeMessure
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    List<Dealer> getAllDealers() {
-        return this.dealerRepository.findAll();
+    List<User> getAllDealers() {
+        return this.userRepository.findAll();
     }
 
     @RequestMapping(value = "/login/{login}", method = RequestMethod.GET)
     @ResponseBody
-    Dealer getDealerByLogin(@PathVariable String login) {
-        return this.dealerRepository.findDealerByLogin(login);
+    User getDealerByLogin(@PathVariable String login) {
+        return this.userRepository.findUserByLogin(login);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
-    Dealer getDealer(@PathVariable Long id) {
-        return this.dealerRepository.findOne(id);
+    User getDealer(@PathVariable Long id) {
+        return this.userRepository.findOne(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    void addDealer(@RequestBody Dealer dealer) {
-        this.dealerRepository.save(dealer);
+    void addDealer(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        this.userRepository.save(user);
     }
 
 }

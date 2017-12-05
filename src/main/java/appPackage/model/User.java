@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Dealer {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +20,7 @@ public class Dealer {
     @NotNull
     private String address;
     @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
     @Column
     private boolean enable;

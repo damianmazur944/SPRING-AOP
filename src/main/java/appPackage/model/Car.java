@@ -24,7 +24,7 @@ public class Car {
     private TransmissionType transmissionType;
     private String photoLink;
     @ManyToOne
-    private Dealer dealer;
+    private User user;
 
 
     public Long getId() {
@@ -75,12 +75,12 @@ public class Car {
         this.transmissionType = transmissionType;
     }
 
-    public Dealer getDealer() {
-        return dealer;
+    public User getUser() {
+        return user;
     }
 
-    public void setDealer(Dealer dealer) {
-        this.dealer = dealer;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getPhotoLink() {

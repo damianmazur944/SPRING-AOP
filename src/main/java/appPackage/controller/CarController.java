@@ -5,7 +5,7 @@ import appPackage.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import appPackage.repository.CarRepository;
-import appPackage.repository.DealerRepository;
+import appPackage.repository.UserRepository;
 
 import java.util.List;
 
@@ -14,13 +14,13 @@ import java.util.List;
 public class CarController {
 
     private final CarRepository carRepository;
-    private final DealerRepository dealerRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     CarController(CarRepository carRepository,
-                  DealerRepository dealerRepository) {
+                  UserRepository userRepository) {
         this.carRepository = carRepository;
-        this.dealerRepository = dealerRepository;
+        this.userRepository = userRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
